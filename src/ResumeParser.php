@@ -2,14 +2,14 @@
 
 namespace App\ResumeParser;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\DomCrawler\Crawler;
 
-use function App\Data\get;
-use function App\Data\save;
+use function App\Data\getFileContents;
+use function App\Data\saveFileContents;
 
-use const App\App\URL;
+use function App\Http\requestAndGetContents;
+
 use const App\ResumesFinder\LINKS_FILENAME;
 
 const RESUMES_FILENAME = 'resumes.json';
@@ -83,7 +83,7 @@ function run()
         sleep(5);
     }
 
-    save(RESUMES_FILENAME, $resumes);
+    saveFileContents(RESUMES_FILENAME, $resumes);
 }
 
 function createResumeNode($data): array
@@ -103,17 +103,15 @@ function createResumeNode($data): array
 function requestHtml(string $link): ?string
 {
     try {
-        $client = new Client(['base_uri' => URL]);
-
-        $response = $client->request('GET', $link);
+        $content = requestAndGetContents($link);
     } catch (ClientException) {
         return null;
     }
 
-    return $response->getBody()->getContents();
+    return $content;
 }
 
 function getResumesLinksList()
 {
-    return get(LINKS_FILENAME);
+    return getFileContents(LINKS_FILENAME);
 }

@@ -5,6 +5,7 @@
       "src/ResumeFinder.php",
       "src/App.php",
       "src/Data.php",
+      "src/Http.php",
       "src/ResumeParser.php"
     ]
   },

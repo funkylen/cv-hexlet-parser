@@ -2,12 +2,11 @@
 
 namespace App\ResumesFinder;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
-use function App\Data\save;
+use function App\Data\saveFileContents;
 
-use const App\App\URL;
+use function App\Http\requestAndGetContents;
 
 const LINKS_FILENAME = 'resumes_list.json';
 
@@ -22,10 +21,10 @@ function run()
         $resumes[] = createResume($item);
     }
 
-    saveResumesList($resumes);
+    saveFileContents(LINKS_FILENAME, $resumes);
 }
 
-function createResume($item)
+function createResume($item): array
 {
     return [
         'title' => (string)$item->title,
@@ -34,20 +33,13 @@ function createResume($item)
     ];
 }
 
-function requestResumesXml()
+function requestResumesXml(): string
 {
     try {
-        $client = new Client(['base_uri' => URL]);
-
-        $response = $client->request('GET', 'resumes.rss');
+        $content = requestAndGetContents('resumes.rss');
     } catch (ClientException) {
         throw new \Exception("Can't get RSS.");
     }
 
-    return $response->getBody();
-}
-
-function saveResumesList(array $resumes)
-{
-    save(LINKS_FILENAME, $resumes);
+    return $content;
 }
