@@ -80,13 +80,10 @@ function run()
         /**
          * NOTE: To avoid ban
          */
-        sleep(10);
-
-        if (count($resumes) > 10) {
-            save(RESUMES_FILENAME, $resumes);
-            return;
-        }
+        sleep(5);
     }
+
+    save(RESUMES_FILENAME, $resumes);
 }
 
 function createResumeNode($data): array
