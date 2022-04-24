@@ -1,0 +1,25 @@
+{
+  "name": "funkylen/parse-cv-hexlet",
+  "autoload": {
+    "files": [
+      "src/ResumeFinder.php",
+      "src/App.php",
+      "src/Data.php",
+      "src/ResumeParser.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "funkylen",
+      "email": "funkylen@gmail.com"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "^7.4",
+    "ext-json": "*",
+    "ext-simplexml": "*",
+    "ext-dom": "*",
+    "symfony/dom-crawler": "^6.0",
+    "symfony/css-selector": "^6.0"
+  }
+}
